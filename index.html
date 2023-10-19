@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLASTIC CALCULATOR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f7f7f7;
+            background-image: url('./background.jpg'); /* Replace with your background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .disclaimer {
+            text-align: left;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .instructions {
+            text-align: right;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            font-size: 36px;
+        }
+
+        .calculator-button {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .calculator-button:hover {
+            background-color: #45a049;
+        }
+
+        .calculator-container {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-container input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .calculator-container .alternative-input {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .calculator-container .alternative-input input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .calculator-container .alternative-input label {
+            flex: 2;
+            font-weight: bold;
+        }
+
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <audio autoplay loop>
+        <source src="background_music.mp3" type="audio/mpeg"> <!-- Replace with your audio file -->
+    </audio>
+
+    <div class="disclaimer">
+        <p>No data is collected or stored.</p>
+    </div>
+
+    <div class="header">
+        PLASTIC CALCULATOR
+    </div>
+
+    <div class="instructions">
+        <p>Instructions: Fill in the fields below with plastic usage in grams. Leave alternative fields empty if not used.</p>
+    </div>
+
+    <button class="calculator-button" onclick="showCalculator()">Calculate</button>
+
+    <div class="calculator-container" style="display:none;">
+        <form onsubmit="return calculatePlasticUsage(event)">
+            <input type="number" id="shoppingUsage" placeholder="Shopping Plastic Usage (grams)" required><br>
+            <div class="alternative-input">
+                <input type="number" id="shoppingAlternative" placeholder="Shopping Alternative Usage (grams)">
+                <label for="shoppingAlternative">Shopping Alternative Usage (grams)</label>
+            </div>
+
+            <input type="number" id="bathroomUsage" placeholder="Bathroom Plastic Usage (grams)" required><br>
+            <div class="alternative-input">
+                <input type="number" id="bathroomAlternative" placeholder="Bathroom Alternative Usage (grams)">
+                <label for="bathroomAlternative">Bathroom Alternative Usage (grams)</label>
+            </div>
+
+            <input type="number" id="kitchenUsage" placeholder="Kitchen Plastic Usage (grams)" required><br>
+            <div class="alternative-input">
+                <input type="number" id="kitchenAlternative" placeholder="Kitchen Alternative Usage (grams)">
+                <label for="kitchenAlternative">Kitchen Alternative Usage (grams)</label>
+            </div>
+
+            <input type="number" id="generalUsage" placeholder="General Plastic Usage (grams)" required><br>
+            <div class="alternative-input">
+                <input type="number" id="generalAlternative" placeholder="General Alternative Usage (grams)">
+                <label for="generalAlternative">General Alternative Usage (grams)</label>
+            </div>
+
+            <button type="submit" class="calculator-button">Calculate</button>
+        </form>
+
+        <div id="result" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        function showCalculator() {
+            var calculatorContainer = document.querySelector('.calculator-container');
+            calculatorContainer.style.display = 'block';
+        }
+
+        function calculatePlasticUsage(event) {
+            event.preventDefault();
+
+            var shoppingUsage = parseInt(document.getElementById('shoppingUsage').value);
+            var shoppingAlternative = parseInt(document.getElementById('shoppingAlternative').value || 0);
+            var bathroomUsage = parseInt(document.getElementById('bathroomUsage').value);
+            var bathroomAlternative = parseInt(document.getElementById('bathroomAlternative').value || 0);
+            var kitchenUsage = parseInt(document.getElementById('kitchenUsage').value);
+            var kitchenAlternative = parseInt(document.getElementById('kitchenAlternative').value || 0);
+            var generalUsage = parseInt(document.getElementById('generalUsage').value);
+            var generalAlternative = parseInt(document.getElementById('generalAlternative').value || 0);
+
+            var totalPlastic = shoppingUsage + bathroomUsage + kitchenUsage + generalUsage;
+            var totalAlternative = shoppingAlternative + bathroomAlternative + kitchenAlternative + generalAlternative;
+
+            var percentage = ((totalAlternative / totalPlastic) * 100).toFixed(2);
+
+            var resultElement = document.getElementById('result');
+            resultElement.style.display = 'block';
+            resultElement.textContent = 'You used ' + percentage + '% alternative materials.';
+
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+
+</html>
